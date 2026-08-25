@@ -46,7 +46,7 @@ The notification service receives notification requests from internal services a
                   │ Preferences / Dedup  │
                   └──────────────────────┘
 
-2. Components
+## 2. Components
 Internal Services
 These are the services that request notifications, such as an authentication service requesting a password reset notification.
 Notification API
