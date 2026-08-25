@@ -18,6 +18,9 @@ export class RateLimiter {
 
     }
     allow(key) {
+        if (!key) {
+            throw new Error("client key is required")
+        }
         const currentTime = this.now();
         const windowStart = currentTime - this.windowMs;
         const timestamps = this.requests.get(key) ?? [];

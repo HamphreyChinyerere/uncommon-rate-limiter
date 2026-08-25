@@ -62,6 +62,25 @@ describe("RateLimiter", () => {
 
         expect(limiter.allow("user-1")).toBe(true)
     })
+    test("removes inactive keys during cleanup", () => {
+        let currentTime = 0;
+        const limiter = new RateLimiter(
+            2,
+            10000,
+            () => currentTime
+        )
+        limiter.allow("user-1");
+        currentTime = 10001;
+        limiter.cleanup();
+        expect(limiter.requests.has("user-1")).toBe(false);
+    })
+    test("rejects an empty client key", () => {
+        const limiter = new RateLimiter(3, 10000);
+
+        expect(() => limiter.allow("")).toThrow(
+            "client key is required"
+        )
+    })
     
 
     
