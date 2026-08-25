@@ -4,7 +4,7 @@ export class RateLimiter {
             throw new Error("Limit must be a positive integer");
         }
         if (!Number.isInteger(windowMs) || windowMs <= 0){
-            throw new Error("Window must be a positive integer")
+            throw new Error("Window must be a positive integer");
         }
 
         this.limit = limit;
