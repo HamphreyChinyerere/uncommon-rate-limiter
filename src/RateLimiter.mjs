@@ -1,0 +1,32 @@
+export class RateLimiter {
+    constructor(limit, windowMs, now = () => Date.now()) {
+        this.limit = limit;
+        this.windowMs = windowMs;
+
+        //We use this to control the time in our tests
+        this.now = now;
+
+        //Store requests times for each user
+        this.requests = new Map();
+
+    }
+    allow(key) {
+        const currentTime = this.now();
+        const windowStart = currentTime - this.windowMs;
+        const timestamps = this.requests.get(key) ?? [];
+
+        //This removes requests that are otside the time window
+        const recentRequests = timestamps.filter(
+            (timestamp) => timestamp > windowStart
+        );
+        if (recentRequests.length >= this.limit) {
+            this.requests.set(key, recentRequests);
+            return false;
+        }
+
+        //adding new request
+        recentRequests.push(cuurentTime);
+        this.requests.set(key, recentRequests);
+        return false;
+    }
+}
