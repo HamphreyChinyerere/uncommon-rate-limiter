@@ -25,8 +25,8 @@ export class RateLimiter {
         }
 
         //adding new request
-        recentRequests.push(cuurentTime);
+        recentRequests.push(currentTime);
         this.requests.set(key, recentRequests);
-        return false;
+        return true;
     }
 }
