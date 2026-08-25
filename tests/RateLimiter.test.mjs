@@ -47,6 +47,22 @@ describe("RateLimiter", () => {
 
         expect(limiter.allow("user-1")).toBe(true)
     })
+    test("allows a request at the window boundary", () => {
+        let currentTime = 0;
+        
+        const limiter = new RateLimiter(
+            2,
+            10000,
+            () => currentTime
+        );
+        expect(limiter.allow("user-1")).toBe(true);
+        expect(limiter.allow("user-1")).toBe(true);
+
+        currentTime = 10000;
+
+        expect(limiter.allow("user-1")).toBe(true)
+    })
     
+
     
 })

@@ -1,5 +1,12 @@
 export class RateLimiter {
     constructor(limit, windowMs, now = () => Date.now()) {
+        if (!Number.isInteger(limit) || limit <= 0){
+            throw new Error("Limit must be a positive integer");
+        }
+        if (!Number.isInteger(windowMs) || windowMs <= 0){
+            throw new Error("Window must be a positive integer")
+        }
+        
         this.limit = limit;
         this.windowMs = windowMs;
 
