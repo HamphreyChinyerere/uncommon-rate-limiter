@@ -6,7 +6,7 @@ export class RateLimiter {
         if (!Number.isInteger(windowMs) || windowMs <= 0){
             throw new Error("Window must be a positive integer")
         }
-        
+
         this.limit = limit;
         this.windowMs = windowMs;
 
@@ -35,5 +35,19 @@ export class RateLimiter {
         recentRequests.push(currentTime);
         this.requests.set(key, recentRequests);
         return true;
+    }
+    cleanup() {
+        const currentTime = this.now();
+
+        for (const [key, timestamps] of this.requests){
+            const recentRequests = timestamps.filter(
+                (timestamp) => timestamp > currentTime - this.windowMs 
+            )
+            if (recentRequests.length === 0){
+                this.requests.delete(key);
+            } else {
+                this.requests.set(key, recentRequests)
+            }
+        }
     }
 }
